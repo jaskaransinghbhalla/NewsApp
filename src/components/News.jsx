@@ -22,7 +22,10 @@ export default class News extends Component {
     try {
       const url = `${proxyUrl}https://newsapi.org/v2/top-headlines?category=${this.props.category}&apiKey=${apiKey}`;
       this.setState({ loading: true });
-      let data = await fetch(url);
+      let data = await fetch(url, {
+        Origin: "https://app.news.jsbhalla.in/",
+        "x-requested-with": "XMLHttpRequest",
+      });
       let parsedData = await data.json();
       this.setState({
         articles: parsedData.articles,
