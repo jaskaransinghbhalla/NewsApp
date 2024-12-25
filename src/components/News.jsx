@@ -18,18 +18,18 @@ export default class News extends Component {
 
   async updateNews() {
     const apiKey = process.env.REACT_APP_NEWS_API;
-    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+    const proxyUrl = "";
     try {
       const url = `${proxyUrl}https://newsapi.org/v2/top-headlines?category=${this.props.category}&apiKey=${apiKey}`;
       this.setState({ loading: true });
-      let data = await fetch(url, {
-        Origin: "https://app.news.jsbhalla.in/",
-        "x-requested-with": "XMLHttpRequest",
-      });
-      let parsedData = await data.json();
+      let response = await fetch(
+        `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
+      );
+      const parsedData = await response.json();
+      const data = JSON.parse(parsedData.contents);
       this.setState({
-        articles: parsedData.articles,
-        totalArticles: parsedData.totalResults,
+        articles: data.articles,
+        totalArticles: data.totalResults,
         loading: false,
       });
     } catch (e) {
@@ -38,7 +38,7 @@ export default class News extends Component {
   }
 
   async componentDidMount() {
-    this.updateNews();
+    await this.updateNews();
   }
 
   handleNextClick = async () => {
