@@ -18,8 +18,9 @@ export default class News extends Component {
 
   async updateNews() {
     const apiKey = process.env.REACT_APP_NEWS_API;
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
     try {
-      const url = `https://newsapi.org/v2/top-headlines?category=${this.props.category}&apiKey=${apiKey}`;
+      const url = `${proxyUrl}https://newsapi.org/v2/top-headlines?category=${this.props.category}&apiKey=${apiKey}`;
       this.setState({ loading: true });
       let data = await fetch(url);
       let parsedData = await data.json();
